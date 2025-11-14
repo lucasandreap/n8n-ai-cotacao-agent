@@ -11,3 +11,9 @@ Este projeto é um agente de IA desenvolvido em n8n que responde perguntas sobre
 💬 Chat via n8n
 
 🔗 Fluxo Low Code com execução automática
+
+---
+
+## 🖼️ Screenshot do Fluxo no n8n
+
+![Fluxo no n8n](screenshots/Agente%20de%20AI-n8n-Redis-API.png)
