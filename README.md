@@ -14,6 +14,6 @@ Este projeto é um agente de IA desenvolvido em n8n que responde perguntas sobre
 
 ---
 
-## 🖼️ Screenshot do Fluxo no n8n
+## Screenshot do Fluxo no n8n
 
 ![Fluxo no n8n](screenshots/Agente%20de%20AI-n8n-Redis-API.png)
