@@ -1,0 +1,156 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Você é um assistente especialista financeiro e que fala tudo sobre câmbio.\n\nUse a tool cotacao sempre que o usuário perguntar sobre a cotação de alguma moeda"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.1,
+      "position": [
+        -592,
+        -80
+      ],
+      "id": "bdfe8532-d1ed-4ecf-ab80-707e42d506f2",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -912,
+        -80
+      ],
+      "id": "6060bf4b-3eb7-4926-82cd-3fbb88843d56",
+      "name": "When chat message received",
+      "webhookId": "98619854-9d9d-4522-9761-ec29a0582bb2"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -688,
+        144
+      ],
+      "id": "0d78c08e-03ed-4195-af07-a937616276ca",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Bkb3YFFt4X0mT32B",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionTTL": 15000
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        -544,
+        112
+      ],
+      "id": "f004d8f2-8aa6-4a25-833a-e51fddda1c52",
+      "name": "Redis Chat Memory",
+      "credentials": {
+        "redis": {
+          "id": "F8ejyQJ029sh05KB",
+          "name": "Redis n8ncambio"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "=Buscar cotação de moeda",
+        "url": "=https://economia.awesomeapi.com.br/json/last/{{ $fromAI('moeda','Codigo da moeda que o usuario informar no formato BRL, USD, EUR') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        -352,
+        128
+      ],
+      "id": "21c36ec2-9f93-466d-9988-cc0e185ea4af",
+      "name": "cotacao"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cotacao": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2a21792b-92ae-4cb8-b49f-c5913c5e3691",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0d3a0bdd89c0d1c0fecb16d68b30c023501721181452f220476d91c525bf6155"
+  },
+  "id": "aqs47lqZPB3Kr7C4",
+  "tags": []
+}
